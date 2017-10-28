@@ -68,9 +68,10 @@ const languageStrings = {
                 "soft undo then  jumps to your last change befor",
                 "wrap selection in html tag",
                 "close current html tag",
-            ]
+            ],
             SKILL_NAME: 'Sublime Shortcuts',
-            GET_FACT_MESSAGE: "Here's a random shortcut: ",
+            GET_SHORTCUT_MESSAGE: "Here's a random shortcut: ",
+            KEYPRESS_TRANSITION_MESSAGE: " is a shortcut for ",
             HELP_MESSAGE: 'You can say tell me a sublime shortcut, or, you can say exit... What can I help you with?',
             HELP_REPROMPT: 'What can I help you with?',
             STOP_MESSAGE: 'Goodbye!',
@@ -80,21 +81,23 @@ const languageStrings = {
 
 const handlers = {
     'LaunchRequest': function () {
-        this.emit('GetFact');
+        this.emit('GetShortcut');
     },
-    'GetNewFactIntent': function () {
-        this.emit('GetFact');
+    'GetRandomShortcutIntent': function () {
+        this.emit('GetShortcut');
     },
-    'GetFact': function () {
+    'GetShortcut': function () {
         // Get a random space fact from the space facts list
         // Use this.t() to get corresponding language data
-        const factArr = this.t('FACTS');
-        const factIndex = Math.floor(Math.random() * factArr.length);
-        const randomFact = factArr[factIndex];
+        const keypresses = this.t('KEYPRESSES');
+        const commands = this.t('COMMANDS');
+
+        const shortcutIndex = Math.floor(Math.random() * keypresses.length);
+        const randomShortcut = keypresses[shortcutIndex] + this.t('KEYPRESS_TRANSITION_MESSAGE') + commands[shortcutIndex];
 
         // Create speech output
-        const speechOutput = this.t('GET_FACT_MESSAGE') + randomFact;
-        this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), randomFact);
+        const speechOutput = this.t('GET_SHORTCUT_MESSAGE') + randomShortcut;
+        this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), randomShortcut);
     },
     'AMAZON.HelpIntent': function () {
         const speechOutput = this.t('HELP_MESSAGE');
