@@ -1,0 +1,9 @@
+GetShortcutIntent what does {Keypress} do
+GetShortcutIntent what {Keypress} does
+GetShortcutIntent what is {Keypress}
+GetRandomShortcutIntent tell me a sublime shortcut
+GetRandomShortcutIntent give me a sublime shortcut
+GetRandomShortcutIntent what is a sublime shortcut
+GetRandomShortcutIntent tell me a shortcut
+GetRandomShortcutIntent give me a shortcut
+GetRandomShortcutIntent what is a shortcut

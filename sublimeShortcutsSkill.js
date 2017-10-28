@@ -38,7 +38,7 @@ const shortcuts = {
 		"control plus shift plus v",
 		"control plus space",
 		"control plus u",
-		"alt plus shift plus  w",
+		"alt plus shift plus w",
 		"alt plus period"
 	],
 	"keypressWithoutPlus": [
@@ -64,7 +64,7 @@ const shortcuts = {
 		"control shift v",
 		"control space",
 		"control u",
-		"alt shift  w",
+		"alt shift What",
 		"alt period"
 	],
 	"commands": [
@@ -95,14 +95,6 @@ const shortcuts = {
 	]
 }
 
-var keyToCommand = {};
-
-for(var i=0; i<shortcuts.keypressWithPlus.length; i++) {
-	keyToCommand[shortcuts.keypressWithPlus[i]] = shortcuts.commands[i];
-	keyToCommand[shortcuts.keypressWithoutPlus[i]] = shortcuts.commands[i];
-}
-
-
 const languageStrings = {
 	'en': {
 		translation: {
@@ -118,6 +110,8 @@ const languageStrings = {
 		},
 	}
 };
+
+var keyToCommand = {};
 
 function getItem(slots)
 {
@@ -147,11 +141,26 @@ function getItem(slots)
 
 function getBadAnswer(item) { return "I'm sorry. " + item + " is not something I know very much about in this skill. " + this.t('HELP_MESSAGE'); }
 
-function getSpeechDescription(item)
+function getSpeechDescription(slots)
 {
-    let sentence = keyToCommand[item.value];
-    console.log(sentence);
-    return sentence;
+	console.log(JSON.stringify(slots));
+	var command = slots["Keypress"]["value"].toLowerCase();
+	console.log(slots["Keypress"]["value"]);
+    // let sentence = keyToCommand[slots.value];
+    // console.log(sentence);
+	keyToCommand = {};
+
+	for(var i=0; i<shortcuts.keypressWithPlus.length; i++) {
+		keyToCommand[shortcuts.keypressWithPlus[i]] = shortcuts.commands[i];
+		keyToCommand[shortcuts.keypressWithoutPlus[i]] = shortcuts.commands[i];
+	}
+    if (keyToCommand[command] == undefined) {
+    	// if (command != "control x") {
+    	// 	return JSON.stringify(command.split(""));
+    	// }
+    	return JSON.stringify(command.split("")) + " is the command Something went wrong";
+    }
+    return keyToCommand[command];
 }
 
 const handlers = {
@@ -172,16 +181,21 @@ const handlers = {
 		this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), randomShortcut);
 	},
 	'GetShortcutIntent': function() {
-		let item = getItem(this.event.request.intent.slots);
-		console.log(JSON.stringify(item));
-		if (item)// && item["Keypress"] != undefined)// && item[Object.getOwnPropertyNames(data[0])[0]] != undefined)
-		{
-			this.response.speak(getSpeechDescription(item)).listen(this.t('REPROMPT_SPEECH'));
-		}
-		else
-		{
-			this.response.speak(getBadAnswer(item)).listen(getBadAnswer(item));
-		}
+		var slots = this.event.request.intent.slots;
+		this.response.speak(getSpeechDescription(slots)).listen(this.t('REPROMPT_SPEECH'));
+
+		// let item = getItem(this.event.request.intent.slots);
+		// console.log(JSON.stringify(item));
+		// if (item)// && item["Keypress"] != undefined)// && item[Object.getOwnPropertyNames(data[0])[0]] != undefined)
+		// {
+		// 	this.response.speak(getSpeechDescription(item)).listen(this.t('REPROMPT_SPEECH'));
+		// }
+		// else
+		// {
+		// 	this.response.speak(getBadAnswer(item)).listen(getBadAnswer(item));
+		// }
+
+		// this.response.speak(getSpeechDescription(item)).listen(this.t('REPROMPT_SPEECH'));
 
 		this.emit(":responseReady");
 	},
