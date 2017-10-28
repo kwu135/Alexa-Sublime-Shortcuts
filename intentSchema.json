@@ -1,0 +1,32 @@
+{
+  "intents": [
+    {
+      "slots": [
+        {
+          "name": "Keypress",
+          "type": "KEYPRESS"
+        },
+        {
+          "name": "Command",
+          "type": "COMMAND"
+        }
+      ],
+      "intent": "GetShortcutIntent"
+    },
+    {
+      "intent": "GetRandomShortcutIntent"
+    },
+    {
+      "intent": "AMAZON.StopIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
+      "intent": "AMAZON.StartOverIntent"
+    },
+    {
+      "intent": "AMAZON.HelpIntent"
+    }
+  ]
+}
