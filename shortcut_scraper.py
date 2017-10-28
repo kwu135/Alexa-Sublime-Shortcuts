@@ -32,6 +32,8 @@ replace_command_name = {
 	"(s)": "s"
 }
 
+keypresses = []
+commands = []
 is_keypress = True
 
 for index, line in enumerate(site_input_lines):
@@ -42,10 +44,19 @@ for index, line in enumerate(site_input_lines):
 		if is_keypress:
 			for key in replace_key_name:
 				inner_text = inner_text.replace(key, replace_key_name[key])
+			keypresses.append(inner_text)
 		else:
 			for key in replace_command_name:
 				inner_text = inner_text.replace(key, replace_command_name[key])
-		file.write(inner_text + "\n")
+			commands.append(inner_text)
 		is_keypress = not is_keypress
+
+file.write("Keypresses:\n")
+for keypress in keypresses:
+	file.write("\"" + keypress + "\",\n")
+
+file.write("Commands:\n")
+for command in commands:
+	file.write("\"" + command + "\",\n")
 
 file.close()
