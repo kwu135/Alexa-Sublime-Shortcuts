@@ -1,0 +1,116 @@
+control plus x
+cut line
+control plus enter
+insert line after
+control plus shift plus enter
+insert line before
+control plus shift plus up
+move line or selection up
+control plus shift plus down
+move line or selection down
+control plus l
+select line then repeat to select next lines
+control plus d
+select word then repeat select others occurrences
+control plus m
+jump to closing parenthese
+control plus shift plus m
+select all contents of the current parentheses
+control plus shift plus k
+delete line
+control plus k k
+delete from cursor to end of line
+control plus k plus backspace
+delete from cursor to start of line
+control plus right bracket
+indent current lines
+control plus left bracket
+un-indent current lines
+control plus shift plus d
+duplicate lines
+control plus j
+join line below to the end of the current line
+control plus slash
+comment or un-comment current line
+control plus shift plus slash
+block comment current selection
+control plus y
+redo, or repeat last keyboard shortcut command
+control plus shift plus v
+paste and indent correctly
+control plus space
+select next auto-complete suggestion
+control plus u
+soft undo then  jumps to your last change befor
+alt plus shift plus  w
+wrap selection in html tag
+alt plus period
+close current html tag
+control plus alt plus up
+column selection up
+control plus alt plus down
+column selection down
+alt plus shift plus up
+column selection up
+alt plus shift plus down
+column selection down
+control plus p
+quick-open files by name
+control plus r
+goto symbol
+control plus ;
+goto word in current file
+control plus g
+goto line in current file
+control plus shift plus p
+command prompt
+control plus kb
+toggle side bar
+control plus shift plus alt plus p
+show scope in status bar
+control plus f
+find
+control plus h
+replace
+control plus shift plus f
+find in files
+control plus shift plus t
+open last closed tab
+control plus pgup
+cycle up through tabs
+control plus pgdn
+cycle down through tabs
+control plus ⇆
+find in files
+control plus w
+close current tab
+alt plus left bracketnumright bracket
+switch to tab number [num] where [num] &lt then = number of tabs
+alt plus shift plus 1
+revert view to single column
+alt plus shift plus 2
+split view into two columns
+alt plus shift plus 3
+split view into three columns
+alt plus shift plus 4
+split view into four columns
+alt plus shift plus 5
+set view to grid (4 groups)
+alt plus shift plus 8
+split view into two rows
+control plus left bracketnumright bracket
+jump to group where num is 1-4
+control plus shift plus left bracketnumright bracket
+move file to specified group where num is 1-4
+control plus f2
+toggle bookmark
+f2
+next bookmark
+shift plus f2
+previous bookmark
+control plus shift plus f2
+clear bookmarks
+control plus ku
+transform to uppercase
+control plus kl
+transform to lowercase
