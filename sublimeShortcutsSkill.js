@@ -97,7 +97,7 @@ const shortcuts = {
 
 var keyToCommand = {};
 
-for(var i=0; i<shortcuts.commands.length; i++) {
+for(var i=0; i<shortcuts.keypressWithPlus.length; i++) {
 	keyToCommand[shortcuts.keypressWithPlus[i]] = shortcuts.commands[i];
 	keyToCommand[shortcuts.keypressWithoutPlus[i]] = shortcuts.commands[i];
 }
@@ -121,24 +121,27 @@ const languageStrings = {
 
 function getItem(slots)
 {
-	let propertyArray = Object.getOwnPropertyNames(data[0]);
+	console.log(JSON.stringify(slots));
+	let propertyArray = ["Keyword"];
 	let value;
 
 	for (let slot in slots)
 	{
+		console.log("slot: " + JSON.stringify(slot));
 		if (slots[slot].value !== undefined)
 		{
-			value = slots[slot].value;
-			for (let property in propertyArray)
-			{
-				let item = data.filter(x => x[propertyArray[property]].toString().toLowerCase() === slots[slot].value.toString().toLowerCase());
-				if (item.length > 0)
-				{
-					return item[0];
-				}
-			}
+			return slots[slot];
+			// for (let property in propertyArray)
+			// {
+			// 	let item = data.filter(x => x[propertyArray[property]].toString().toLowerCase() === slots[slot].value.toString().toLowerCase());
+			// 	if (item.length > 0)
+			// 	{
+			// 		return item[0];
+			// 	}
+			// }
 		}
 	}
+
 	return value;
 }
 
@@ -146,21 +149,22 @@ function getBadAnswer(item) { return "I'm sorry. " + item + " is not something I
 
 function getSpeechDescription(item)
 {
-    let sentence = keyToCommand[item.Keypress];
+    let sentence = keyToCommand[item.value];
+    console.log(sentence);
     return sentence;
 }
 
 const handlers = {
 	'LaunchRequest': function () {
-		this.emit('GetRandomShortcut');
+		this.emit('GetRandomShortcutIntent');
 	},
-	'GetRandomShortcut': function () {
+	'GetRandomShortcutIntent': function () {
 		// Get a random space fact from the space facts list
 		// Use this.t() to get corresponding language data
 		const keypresses = this.t('KEYPRESSES');
 		const commands = this.t('COMMANDS');
 
-		const shortcutIndex = Math.floor(Math.random() * keypresses.length);
+		const shortcutIndex = Math.floor(Math.random() * commands.length);
 		const randomShortcut = keypresses[shortcutIndex] + this.t('KEYPRESS_TRANSITION_MESSAGE') + commands[shortcutIndex];
 
 		// Create speech output
@@ -169,8 +173,8 @@ const handlers = {
 	},
 	'GetShortcutIntent': function() {
 		let item = getItem(this.event.request.intent.slots);
-
-		if (item && item[Object.getOwnPropertyNames(data[0])[0]] != undefined)
+		console.log(JSON.stringify(item));
+		if (item)// && item["Keypress"] != undefined)// && item[Object.getOwnPropertyNames(data[0])[0]] != undefined)
 		{
 			this.response.speak(getSpeechDescription(item)).listen(this.t('REPROMPT_SPEECH'));
 		}
