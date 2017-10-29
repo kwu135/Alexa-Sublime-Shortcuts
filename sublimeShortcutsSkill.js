@@ -1,12 +1,5 @@
 /* eslint-disable  func-names */
 /* eslint quote-props: ["error", "consistent"]*/
-/**
- * This sample demonstrates a simple skill built with the Amazon Alexa Skills
- * nodejs skill development kit.
- * This sample supports multiple lauguages. (en-US, en-GB, de-DE).
- * The Intent Schema, Custom Slots and Sample Utterances for this skill, as well
- * as testing instructions are located at https://github.com/alexa/skill-sample-nodejs-fact
- **/
 
 'use strict';
 
@@ -23,11 +16,11 @@ const shortcuts = {
 		"control plus shift plus down",
 		"control plus l",
 		"control plus d",
-		"control plus m",
-		"control plus shift plus m",
-		"control plus shift plus k",
-		"control plus k k",
-		"control plus k plus backspace",
+		"control plus m.",
+		"control plus shift plus m.",
+		"control plus shift plus k.",
+		"control plus k. plus k.",
+		"control plus k. plus backspace",
 		"control plus right bracket",
 		"control plus left bracket",
 		"control plus shift plus d",
@@ -49,11 +42,11 @@ const shortcuts = {
 		"control shift down",
 		"control l",
 		"control d",
-		"control m",
-		"control shift m",
-		"control shift k",
-		"control k k",
-		"control k backspace",
+		"control m.",
+		"control shift m.",
+		"control shift k.",
+		"control k. k.",
+		"control k. backspace",
 		"control right bracket",
 		"control left bracket",
 		"control shift d",
@@ -64,7 +57,7 @@ const shortcuts = {
 		"control shift v",
 		"control space",
 		"control u",
-		"alt shift What",
+		"alt shift w",
 		"alt period"
 	],
 	"commands": [
@@ -115,24 +108,14 @@ var keyToCommand = {};
 
 function getItem(slots)
 {
-	console.log(JSON.stringify(slots));
 	let propertyArray = ["Keyword"];
 	let value;
 
 	for (let slot in slots)
 	{
-		console.log("slot: " + JSON.stringify(slot));
 		if (slots[slot].value !== undefined)
 		{
 			return slots[slot];
-			// for (let property in propertyArray)
-			// {
-			// 	let item = data.filter(x => x[propertyArray[property]].toString().toLowerCase() === slots[slot].value.toString().toLowerCase());
-			// 	if (item.length > 0)
-			// 	{
-			// 		return item[0];
-			// 	}
-			// }
 		}
 	}
 
@@ -143,29 +126,22 @@ function getBadAnswer(item) { return "I'm sorry. " + item + " is not something I
 
 function getSpeechDescription(slots)
 {
-	console.log(JSON.stringify(slots));
 	var command = slots["Keypress"]["value"].toLowerCase();
-	console.log(slots["Keypress"]["value"]);
-    // let sentence = keyToCommand[slots.value];
-    // console.log(sentence);
 	keyToCommand = {};
 
 	for(var i=0; i<shortcuts.keypressWithPlus.length; i++) {
 		keyToCommand[shortcuts.keypressWithPlus[i]] = shortcuts.commands[i];
 		keyToCommand[shortcuts.keypressWithoutPlus[i]] = shortcuts.commands[i];
 	}
-    if (keyToCommand[command] == undefined) {
-    	// if (command != "control x") {
-    	// 	return JSON.stringify(command.split(""));
-    	// }
-    	return JSON.stringify(command.split("")) + " is the command Something went wrong";
-    }
-    return keyToCommand[command];
+	if (keyToCommand[command] == undefined) {
+		return JSON.stringify(command) + " cannot be found.";
+	}
+	return command + " is " + keyToCommand[command];
 }
 
 const handlers = {
 	'LaunchRequest': function () {
-		this.emit('GetRandomShortcutIntent');
+		//this.emit('GetRandomShortcutIntent');
 	},
 	'GetRandomShortcutIntent': function () {
 		// Get a random space fact from the space facts list
@@ -182,20 +158,9 @@ const handlers = {
 	},
 	'GetShortcutIntent': function() {
 		var slots = this.event.request.intent.slots;
-		this.response.speak(getSpeechDescription(slots)).listen(this.t('REPROMPT_SPEECH'));
+		var speechOutput = getSpeechDescription(slots);
 
-		// let item = getItem(this.event.request.intent.slots);
-		// console.log(JSON.stringify(item));
-		// if (item)// && item["Keypress"] != undefined)// && item[Object.getOwnPropertyNames(data[0])[0]] != undefined)
-		// {
-		// 	this.response.speak(getSpeechDescription(item)).listen(this.t('REPROMPT_SPEECH'));
-		// }
-		// else
-		// {
-		// 	this.response.speak(getBadAnswer(item)).listen(getBadAnswer(item));
-		// }
-
-		// this.response.speak(getSpeechDescription(item)).listen(this.t('REPROMPT_SPEECH'));
+		this.emit(':tellWithCard', speechOutput, this.t('SKILL_NAME'), speechOutput);
 
 		this.emit(":responseReady");
 	},

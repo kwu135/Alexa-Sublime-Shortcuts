@@ -11,18 +11,18 @@ site_input_lines = site_input.split("\n")
 file = open("output.txt", "w")
 
 replace_key_name = {
-	"↩": "enter",
-	"⇧": "shift",
-	"ctrl": "control",
-	"+": "plus",
-	".": "period",
-	"↑": "up",
-	"↓": "down",
-	"⌫": "backspace",
-	"]": "right bracket",
-	"[": "left bracket",
-	"/": "slash",
-	"kk": "k k"
+	"↩": "Enter",
+	"⇧": "Shift",
+	"Ctrl": "Control",
+	"+": "Plus",
+	".": "Period",
+	"↑": "Up",
+	"↓": "Down",
+	"⌫": "Backspace",
+	"]": "Right bracket",
+	"[": "Left bracket",
+	"/": "Slash",
+	"KK": "K K"
 }
 
 replace_command_name = {
@@ -40,7 +40,7 @@ for index, line in enumerate(site_input_lines):
 	td_index = line.find("<td>")
 	if td_index is not -1:
 		endtd_index = line.find("</td>")
-		inner_text = line[td_index+4:endtd_index].lower()
+		inner_text = line[td_index+4:endtd_index]
 		if is_keypress:
 			for key in replace_key_name:
 				inner_text = inner_text.replace(key, replace_key_name[key])
